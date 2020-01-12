@@ -1316,11 +1316,12 @@ static int ext4_ext_grow_indepth(handle_t *handle, struct inode *inode,
 		goto out;
 	}
 
-	/* move top-level index/leaf into new block */
 	ext_size = sizeof(EXT4_I(inode)->i_data);
+	/* move top-level index/leaf into new block */
 	memmove(bh->b_data, EXT4_I(inode)->i_data, ext_size);
 	/* zero out unused area in the extent block */
 	memset(bh->b_data + ext_size, 0, inode->i_sb->s_blocksize - ext_size);
+
 	/* set size of new block */
 	neh = ext_block_hdr(bh);
 	/* old root could have indexes or leaves
