@@ -1106,10 +1106,16 @@ int dsi_panel_set_param(struct dsi_panel *panel,
 			dsi_panel_set_hbm(panel, param_info);
 			break;
 		case PARAM_CABC_ID :
-			dsi_panel_set_cabc(panel, param_info);
+			param_info.value = panel->cabc_state;
+			param_info.param_idx = PARAM_CABC_ID;
+			param_info.param_conn_idx = CONNECTOR_PROP_CABC;
+			apply = true;
 			break;
 		case PARAM_ACL_ID :
-			dsi_panel_set_acl(panel, param_info);
+			param_info.value = panel->acl_state;
+			param_info.param_idx = PARAM_ACL_ID;
+			param_info.param_conn_idx = CONNECTOR_PROP_ACL;
+			apply = true;
 			break;
 		default:
 			pr_err("%s: Invalid set_param type=%d\n",
