@@ -1106,22 +1106,17 @@ int dsi_panel_set_param(struct dsi_panel *panel,
 			dsi_panel_set_hbm(panel, param_info);
 			break;
 		case PARAM_CABC_ID :
-			param_info.value = panel->cabc_state;
-			param_info.param_idx = PARAM_CABC_ID;
-			param_info.param_conn_idx = CONNECTOR_PROP_CABC;
-			apply = true;
+			dsi_panel_set_cabc(panel, param_info);
 			break;
 		case PARAM_ACL_ID :
-			param_info.value = panel->acl_state;
-			param_info.param_idx = PARAM_ACL_ID;
-			param_info.param_conn_idx = CONNECTOR_PROP_ACL;
-			apply = true;
+			dsi_panel_set_acl(panel, param_info);
 			break;
 		default:
 			pr_err("%s: Invalid set_param type=%d\n",
 				__func__, param_info->param_idx);
 			return -EINVAL;
 	}
+
 	return rc;
 }
 
@@ -1144,7 +1139,7 @@ void dsi_panel_set_custom_param(struct dsi_panel *panel)
 	bool apply = false;
 
 	for (i = 0; i < PARAM_ID_NUM; i++) {
-		param = &dsi_panel_param[0][i];
+		param = &dsi_panel_param[i];
 		switch (i) {
 			case PARAM_HBM_ID :
 				param_info.value = panel->hbm_state;
@@ -1153,7 +1148,17 @@ void dsi_panel_set_custom_param(struct dsi_panel *panel)
 				apply = true;
 				break;
 			case PARAM_CABC_ID :
+				param_info.value = panel->cabc_state;
+				param_info.param_idx = PARAM_CABC_ID;
+				param_info.param_conn_idx = CONNECTOR_PROP_CABC;
+				apply = true;
+				break;
 			case PARAM_ACL_ID :
+				param_info.value = panel->acl_state;
+				param_info.param_idx = PARAM_ACL_ID;
+				param_info.param_conn_idx = CONNECTOR_PROP_ACL;
+				apply = true;
+				break;
 			default:
 				break;
 		}
