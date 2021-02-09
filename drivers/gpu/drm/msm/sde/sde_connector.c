@@ -637,8 +637,8 @@ void sde_connector_update_fod_hbm(struct drm_connector *connector)
 		return;
 
 	dsi_panel_set_fod_hbm(display->panel, status);
-
-	dsi_display_set_fod_ui(display, status);
+	if (!status)
+		msleep(10);
 }
 
 int sde_connector_pre_kickoff(struct drm_connector *connector)
